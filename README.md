@@ -53,6 +53,17 @@ cd bitnami/APP/VERSION/OPERATING-SYSTEM
 docker build -t bitnami/APP .
 ```
 
+Or, building for multiarch:
+
+```bash
+builder=bitnami-multiarch
+docker buildx inspect "$builder" >/dev/null 2>&1 \
+  || docker buildx create --name "$builder" --driver docker-container >/dev/null
+
+docker buildx build --builder "$builder" --platform linux/amd64,linux/arm64 --push \
+  -t "bitnami/APP:[TAG]" .
+```
+
 > [!TIP]
 > Remember to replace the `APP`, `VERSION`, and `OPERATING-SYSTEM` placeholders in the example command above with the correct values.
 
