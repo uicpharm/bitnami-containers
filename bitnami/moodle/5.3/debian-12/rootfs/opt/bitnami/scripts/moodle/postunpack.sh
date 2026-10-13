@@ -50,7 +50,12 @@ root_dir="${MOODLE_BASE_DIR}"
 if [[ -d "${MOODLE_BASE_DIR}/public" ]]; then
     root_dir="${MOODLE_BASE_DIR}/public"
 fi
-ensure_web_server_app_configuration_exists "moodle" --type php --document-root "${root_dir}" --apache-additional-configuration '
+ensure_web_server_app_configuration_exists "moodle" --type php --document-root "${root_dir}" \
+    --apache-extra-directory-configuration '
+DirectoryIndex index.php
+FallbackResource /r.php
+' \
+    --apache-additional-configuration '
 RewriteEngine On
 
 RewriteRule ^/phpmyadmin - [L,NC]
